@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package im.protocol;
+
+option go_package = "github.com/hoysics/im-kit/api/protocol;protocol";
+option java_multiple_files = true;
+option java_package = "im.protocol";
+
+import "api/protocol/operation.proto";
+
+message Major {
+	int32 ver=1;
+	Operation op=2;
+	int64 seq=3;
+	int32 topic=4;
+	bytes body=5;
+}

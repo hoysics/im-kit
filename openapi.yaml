@@ -1,0 +1,159 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Logic API
+    version: 0.0.1
+paths:
+    /msg/all:
+        post:
+            tags:
+                - Logic
+            operationId: Logic_Broadcast
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BroadcastReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BroadcastReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /msg/clients:
+        post:
+            tags:
+                - Logic
+            operationId: Logic_PushMsg
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PushMsgReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PushMsgReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /msg/room:
+        post:
+            tags:
+                - Logic
+            operationId: Logic_BroadcastInRoom
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BroadcastInRoomReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BroadcastInRoomReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        BroadcastInRoomReply:
+            type: object
+            properties: {}
+        BroadcastInRoomReq:
+            type: object
+            properties:
+                msg:
+                    $ref: '#/components/schemas/Major'
+                room:
+                    type: string
+        BroadcastReply:
+            type: object
+            properties: {}
+        BroadcastReq:
+            type: object
+            properties:
+                msg:
+                    $ref: '#/components/schemas/Major'
+                speed:
+                    type: integer
+                    format: int32
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        Major:
+            type: object
+            properties:
+                ver:
+                    type: integer
+                    format: int32
+                op:
+                    type: integer
+                    format: enum
+                seq:
+                    type: integer
+                    format: int64
+                topic:
+                    type: integer
+                    format: int32
+                body:
+                    type: string
+                    format: bytes
+        PushMsgReply:
+            type: object
+            properties: {}
+        PushMsgReq:
+            type: object
+            properties:
+                cids:
+                    type: array
+                    items:
+                        type: string
+                msg:
+                    $ref: '#/components/schemas/Major'
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+tags:
+    - name: Logic

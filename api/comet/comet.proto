@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package im.comet;
+
+option go_package = "github.com/hoysics/im-kit/api/comet;comet";
+option java_multiple_files = true;
+option java_package = "im-kit.comet";
+
+import "api/protocol/major.proto";
+
+service Comet {
+	rpc Mail (stream im.protocol.Major) returns (stream im.protocol.Major);
+}
+
+service Broker {
+	rpc PushMsg (PushMsgRequest) returns ( PushMsgReply);
+	rpc Broadcast (BroadcastRequest) returns (BroadcastReply);
+	rpc BroadcastInRoom (BroadcastInRoomRequest) returns (BroadcastInRoomReply);
+}
+
+message PushMsgRequest {
+	im.protocol.Major msg=1;
+	repeated string cids=3;
+}
+message PushMsgReply {}
+
+message BroadcastRequest {
+	im.protocol.Major msg=1;
+	int32 speed=2;
+}
+message BroadcastReply {}
+
+message BroadcastInRoomRequest {
+	im.protocol.Major msg=1;
+	string room=2;
+}
+message BroadcastInRoomReply {}
+
+message ClientInfo{
+	string cid=1;
+	string room=2;//access point
+	repeated int32 sub_topics=3;//msg op subscribed, not proto.op
+}

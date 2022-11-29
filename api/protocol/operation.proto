@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package im.protocol;
+
+option go_package = "github.com/hoysics/im-kit/api/protocol;protocol";
+option java_multiple_files = true;
+option java_package = "im.protocol";
+
+enum Operation {
+	Heartbeat=0;
+	ChangeRoom=1;
+	SubTopic=2;
+	UnsubTopic=3;
+	PassOnMsg=4;
+	DeliverMsg=5;
+	BeginEvent=6;
+	EndEvent=7;
+	Disconnect=8;
+}

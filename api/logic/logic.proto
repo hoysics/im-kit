@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package im.logic;
+
+option go_package = "github.com/hoysics/im-kit/api/logic;logic";
+option java_multiple_files = true;
+option java_package = "im-kit.logic";
+
+import "api/protocol/major.proto";
+import "google/api/annotations.proto";
+
+service Logic {
+	rpc Connect (ConnectReq) returns (ConnectReply);
+	rpc Disconnect (DisconnectReq) returns (DisconnectReply);
+	rpc Heartbeat (HeartbeatReq) returns (HeartbeatReply);
+	rpc RecvMsg (RecvMsgReq) returns (RecvMsgReply);
+	rpc PushMsg (PushMsgReq) returns (PushMsgReply){
+		option (google.api.http)={
+			post:"/msg/clients",
+			body:"*",
+		};
+	};
+	rpc Broadcast (BroadcastReq) returns (BroadcastReply){
+		option (google.api.http)={
+			post:"/msg/all",
+			body:"*",
+		};
+	};
+	rpc BroadcastInRoom (BroadcastInRoomReq) returns (BroadcastInRoomReply){
+		option (google.api.http)={
+			post:"/msg/room",
+			body:"*",
+		};
+	};
+}
+
+message ConnectReq {
+	string server=1;
+	string token=2;
+}
+message ConnectReply {
+	string cid=1;
+	string user_id=2;
+	string room=3;//access point
+	repeated int32 sub_topics=4;//msg op subscribed, not proto.op
+}
+
+message DisconnectReq {
+	string server=1;
+	string cid=2;
+	string user_id=3;
+}
+message DisconnectReply {}
+
+message HeartbeatReq {
+	string server=1;
+	string cid=2;
+	string user_id=3;
+}
+message HeartbeatReply {}
+
+message RecvMsgReq {
+	string cid=1;
+	string user_id=2;
+	im.protocol.Major msg=3;
+}
+message RecvMsgReply {}
+
+message PushMsgReq {
+	repeated string cids=1;
+	im.protocol.Major msg=2;
+}
+message PushMsgReply {}
+
+message BroadcastReq {
+	im.protocol.Major msg=1;
+	int32 speed=2;
+}
+message BroadcastReply {}
+
+message BroadcastInRoomReq {
+	im.protocol.Major msg=1;
+	string room=2;
+}
+message BroadcastInRoomReply {}
+
+service Router {
+	rpc Nodes(NodesReq) returns (NodesReply);
+}
+message NodesReq {
+	string protocol_type=1;
+	string client_ip=2;
+	string domain=3;
+}
+message NodesReply {
+	string tls_port=1;
+	string port=2;
+	repeated string nodes=3;
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package im.protocol;
+
+option go_package = "github.com/hoysics/im-kit/api/protocol;protocol";
+option java_multiple_files = true;
+option java_package = "im.protocol";
+
+enum Mode {
+	Clients =0;
+	Topic =1;
+	Broadcast=2;
+}

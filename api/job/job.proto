@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api.job;
+
+option go_package = "github.com/hoysics/im-kit/api/job;job";
+option java_multiple_files = true;
+option java_package = "api.job";
+
+import "api/protocol/major.proto";
+import "api/protocol/signal.proto";
+
+message PushMag {
+	im.protocol.Mode mode=1;
+	im.protocol.Major msg=2;
+	string server=3;
+	repeated string cids=4;
+	string room=5;
+	int32 speed=6;
+}
